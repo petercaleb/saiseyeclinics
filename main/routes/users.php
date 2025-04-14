@@ -66,7 +66,6 @@ Route::middleware(['auth:web', 'preventBackHistory', 'AccountStatus'])->group(fu
     Route::prefix('dashboard')->name('dashboard.')->group(function () {
 
         Route::get('/index', [DashboardDashboardController::class, 'index'])->name('index');
-
     });
 
     Route::prefix('appointments')->name('appointments.')->group(function () {
@@ -134,6 +133,8 @@ Route::middleware(['auth:web', 'preventBackHistory', 'AccountStatus'])->group(fu
         Route::post('/show', [DoctorSchedulesController::class, 'show'])->name('show');
 
         Route::get('/{id}/view', [DoctorSchedulesController::class, 'view'])->name('view');
+
+        Route::get('/export', [DoctorSchedulesController::class, 'export'])->name('export');
     });
 
     Route::prefix('diagnosis')->name('diagnosis.')->group(function () {
@@ -221,27 +222,24 @@ Route::middleware(['auth:web', 'preventBackHistory', 'AccountStatus'])->group(fu
         Route::prefix('stocks')->name('stocks.')->group(function () {
 
             Route::get('/index', [FrameStocksController::class, 'index'])->name('index');
-
         });
 
-        Route::prefix('received')->name('received.')->group(function(){
+        Route::prefix('received')->name('received.')->group(function () {
 
             Route::get('/index', [FramesReceivedController::class, 'index'])->name('index');
 
             Route::get('/from/clinics', [FramesReceivedController::class, 'getReceivedFromClinic'])->name('from.clinics');
 
             Route::post('/{clinic}/store', [FramesReceivedController::class, 'store'])->name('store');
-
         });
 
-        Route::prefix('requests')->name('requests.')->group(function(){
+        Route::prefix('requests')->name('requests.')->group(function () {
 
             Route::get('/index', [FrameRequestsController::class, 'index'])->name('index');
 
             Route::post('/store', [FrameRequestsController::class, 'store'])->name('store');
 
             Route::get('{frameRequest}/show', [FrameRequestsController::class, 'show'])->name('show');
-
         });
     });
 
@@ -250,30 +248,25 @@ Route::middleware(['auth:web', 'preventBackHistory', 'AccountStatus'])->group(fu
         Route::prefix('stock')->name('stock.')->group(function () {
 
             Route::get('/index', [CaseStocksController::class, 'index'])->name('index');
-
         });
 
-        Route::prefix('received')->name('received.')->group(function(){
+        Route::prefix('received')->name('received.')->group(function () {
 
             Route::get('/', [CasesReceivedController::class, 'index'])->name('index');
 
             Route::get('/from/clinics', [CasesReceivedController::class, 'getReceivedFromClinic'])->name('from.clinics');
 
             Route::post('/store', [CasesReceivedController::class, 'store'])->name('store');
-
         });
 
-        Route::prefix('requests')->name('requests.')->group(function(){
+        Route::prefix('requests')->name('requests.')->group(function () {
 
             Route::get('/index', [CaseRequestsController::class, 'index'])->name('index');
 
             Route::post('/store', [CaseRequestsController::class, 'store'])->name('store');
 
             Route::get('{caseRequest}/show', [CaseRequestsController::class, 'show'])->name('show');
-
         });
-
-
     });
 
     Route::prefix('doctors')->name('doctors.')->group(function () {

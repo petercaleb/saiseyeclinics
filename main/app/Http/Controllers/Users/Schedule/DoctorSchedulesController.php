@@ -14,6 +14,9 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Dompdf\Dompdf;
+use Dompdf\Options;
+use Illuminate\Support\Facades\Log;
 
 class DoctorSchedulesController extends Controller
 {
@@ -253,5 +256,52 @@ class DoctorSchedulesController extends Controller
             'frame_stocks' => $frame_stocks,
             'page_title' => $page_title,
         ]);
+    }
+
+
+
+    public function export()
+    {
+        try {
+            // Sample data (Replace with actual data from the database)
+            $data = [
+                'patient_id' => 'P12345',
+                'appointment_id' => 'A123',
+                'schedule_id' => 'S456',
+                'diagnoisis_id' => 'D789',
+                'right_sphere' => '0.25',
+                'right_cylinder' => '-0.50',
+                'right_axis' => '90',
+                'right_add' => '0.75',
+                'left_sphere' => '0.50',
+                'left_cylinder' => '-0.75',
+                'left_axis' => '85',
+                'left_add' => '0.75',
+                'notes' => 'Patient requires updated lenses for reading and distance.'
+            ];
+
+            // Set up DOMPDF options
+            $options = new Options();
+            $options->set('isHtml5ParserEnabled', true);
+            $options->set('isPhpEnabled', true);
+
+            // Create a new DOMPDF instance with options
+            $pdf = new Dompdf($options);
+
+            $pdf->setPaper('A4', 'potrait');
+
+            // Load the HTML content for PDF generation
+            $html = view('users.schedules.exports.lens_power', $data)->render();
+            $pdf->loadHtml($html);
+
+            // Render the PDF (first pass)
+            $pdf->render();
+
+            // Stream the PDF to the browser (inline view, no download)
+            return $pdf->stream('receipt.pdf', ['Attachment' => 0]);
+        } catch (\Exception $e) {
+            Log::error('PDF generation failed: ' . $e->getMessage());
+            return response()->json(['error' => 'PDF generation failed'], 500);
+        }
     }
 }

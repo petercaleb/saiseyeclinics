@@ -27,10 +27,55 @@
                 "Treatment 2": @json($lens_prescription_1 ?? null)
             }
         };
-
         let data = dataMap[type]?.[option];
         if (data) {
-            buttons.forEach(button => button.setAttribute("data-id", data.id));
+            buttons.forEach((button) => {
+                button.setAttribute("data-id", data.id)
+                button.setAttribute("data-type", type);
+                button.setAttribute("data-option", option);
+            });
+        }
+    }
+
+
+    async function getExportData(button, attributes = [], endpoint) {
+        try {
+            let res = await fetch(endpoint, getDataFromAttributes(button, attributes));
+            if (res.ok) {
+                console.log('response okay')
+            } else {
+                console.log('connsction failed')
+            }
+        } catch (e) {
+            throw e;
+        }
+
+    }
+
+
+    function getDataFromAttributes(button, attributes) {
+        try {
+            let data = new FormData();
+            let attrs = [];
+            let postData = {};
+            if (attributes.length > 0) {
+                attributes.forEach((attr) => {
+                    attrs.push(`${attr}|${button.getAttribute(attr)}`);
+                })
+                attrs.forEach(item => {
+                    let [key, value] = item.split("|");
+                    let cleanKey = key.replace('data-', '');
+                    postData[cleanKey] = value
+                })
+                for (let x in postData) {
+                    data.append(x, postData[x]);
+                }
+                return data
+            } else {
+                throw new Error('You must pass in 3 attributes: data-id, data-type, data-option')
+            }
+        } catch (e) {
+            console.error(e)
         }
     }
 

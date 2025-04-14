@@ -795,6 +795,20 @@
 
 
 
+                $(document).on('click', '#downloadTreatment', function(e) {
+                    e.preventDefault();
+                    let path = '{{ route('users.doctor.schedules.export') }}';
+                    let attributes = [
+                        'data-id',
+                        'data-type',
+                        'data-option'
+                    ]
+                    console.log(path);
+                    getExportData(this, attributes, path);
+                })
+
+
+
 
 
                 $(document).on('click', '.newLensPrescriptionBtn', function(e) {
@@ -979,7 +993,7 @@
                         },
                     });
                     @if ($lens_prescription && $lens_prescription_1)
-                        
+
                         safeGetFunction("lensPrescription__Details");
                     @elseif (!$lens_prescription && !$lens_prescription_1)
                         editHTML(".treatmentOptionTitle", "Choose a Treatment option");

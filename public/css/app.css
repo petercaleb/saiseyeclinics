@@ -1,0 +1,84 @@
+.content .container-fluid .card .card-body .lensPowerDiv {
+  margin-bottom: 1rem;
+  display: none;
+}
+.content .container-fluid .card .card-body .lensPrescriptionDiv {
+  margin-bottom: 1rem;
+  display: none;
+}
+.content .container-fluid .card .card-body .frameCodesDiv {
+  margin-bottom: 1rem;
+  display: none;
+}
+.content .container-fluid .approvalCard {
+  display: none;
+}
+.content .container-fluid #newPatientCard {
+  display: none;
+}
+.content .container-fluid #patientPaymentDetailsCard {
+  display: none;
+}
+.content .container-fluid #patientPaymentDetailsCard .insuranceCompany {
+  display: none;
+}
+.content .container-fluid #patientPaymentDetailsCard .schemeName {
+  display: none;
+}
+.content .container-fluid #patientPaymentDetailsCard .principalMemberName {
+  display: none;
+}
+.content .container-fluid #patientPaymentDetailsCard .principalMemberPhone {
+  display: none;
+}
+.content .container-fluid #patientPaymentDetailsCard .principalMemberWorkplace {
+  display: none;
+}
+.content .container-fluid #patientPaymentDetailsCard .insuranceCardNumber {
+  display: none;
+}
+.content .container-fluid #patientPaymentDetailsCard .hospitalClientNumber {
+  display: none;
+}
+.content .container-fluid #insuranceSpan {
+  display: none;
+}
+.content .container-fluid .col-md-3 .card-outline .card-body .active {
+  color: #264dfa !important;
+}
+.content .container-fluid .filterReportsByDatesRow {
+  display: none;
+}
+.content .container-fluid .filterReportsByPaymentsRow {
+  display: none;
+}
+.content .container-fluid .filterReportsByOrdersRow {
+  display: none;
+}
+.content .container-fluid .ordersReportsByDateRow {
+  display: none;
+}
+.content .container-fluid .ordersReportsByReceiptNumberRow {
+  display: none;
+}
+.content .container-fluid .ordersReportsByStatusRow {
+  display: none;
+}
+.content .container-fluid .fliterByDatesRow {
+  display: none;
+}
+.content .container-fluid .filterReportsByStatusRow {
+  display: none;
+}
+.content .container-fluid .TATOneReportsByDateRow {
+  display: none;
+}
+.content .container-fluid .TATOneReportsByStatusRow {
+  display: none;
+}
+.content .container-fluid .TATTwoReportsByDateRow {
+  display: none;
+}
+.content .container-fluid .TATTwoReportsByStatusRow {
+  display: none;
+}
