@@ -1,0 +1,169 @@
+// Variables
+@import 'variables';
+
+.content {
+    .container-fluid {
+
+        .card {
+            .card-body {
+
+                .submitRemmittanceSpan
+                {
+                    display: none;
+                }
+
+                .sendToHQSpan
+                {
+                    display: none;
+                }
+
+                .lensPowerDiv {
+                    margin-bottom: 1rem;
+                    display      : none;
+                }
+
+                .lensPrescriptionDiv {
+                    margin-bottom: 1rem;
+                    display      : none;
+                }
+
+                .frameCodesDiv {
+                    margin-bottom: 1rem;
+                    display      : none;
+                }
+
+                .receivePaymentsBtnRow
+                {
+                    display: none;
+                }
+
+                [contenteditable="true"] {
+                    border : 1px solid #ddd;
+                    padding: 5px;
+                    cursor : text;
+                }
+            }
+        }
+
+        .approvalCard {
+            display: none;
+        }
+
+        #newPatientCard {
+            display: none;
+        }
+
+        #patientPaymentDetailsCard {
+            display: none;
+
+            .insuranceCompany {
+                display: none;
+            }
+
+            .schemeName {
+                display: none;
+            }
+
+            .principalMemberName {
+                display: none;
+            }
+
+            .principalMemberPhone {
+                display: none;
+            }
+
+            .principalMemberWorkplace {
+                display: none;
+            }
+
+            .insuranceCardNumber {
+                display: none;
+            }
+
+            .hospitalClientNumber {
+                display: none;
+            }
+        }
+
+        #insuranceSpan {
+            display: none;
+        }
+
+        .col-md-3 {
+            .card-outline {
+                .card-body {
+                    .active {
+                        color: #264dfa !important;
+                    }
+                }
+            }
+        }
+
+        .filterReportsByDatesRow {
+            display: none;
+        }
+
+        .filterReportsByPaymentsRow {
+            display: none;
+        }
+
+        .filterReportsByOrdersRow {
+            display: none;
+        }
+
+        .ordersReportsByDateRow {
+            display: none;
+        }
+
+        .ordersReportsByReceiptNumberRow {
+            display: none;
+        }
+
+        .ordersReportsByStatusRow {
+            display: none;
+        }
+
+        .fliterByDatesRow {
+            display: none;
+        }
+
+        .filterReportsByStatusRow {
+            display: none;
+        }
+
+        .TATOneReportsByDateRow {
+            display: none;
+        }
+
+        .TATOneReportsByStatusRow {
+            display: none;
+        }
+
+        .TATTwoReportsByDateRow {
+            display: none;
+        }
+
+        .TATTwoReportsByStatusRow {
+            display: none;
+        }
+
+        .receiveDocumentSpan {
+            display: none;
+        }
+    }
+
+
+}
+
+.form-step {
+    display: none;
+}
+
+.form-step.active {
+    display: block;
+}
+
+.insurancePatientColumn
+{
+    display: none;
+}
