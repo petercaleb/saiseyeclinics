@@ -1,0 +1,46 @@
+name: Deploy Laravel via FTP
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ⏬ Checkout code
+        uses: actions/checkout@v3
+
+      - name: ⚙️ Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, bcmath, intl, curl
+
+      - name: 📦 Install Composer dependencies
+        run: |
+          composer install --no-dev --optimize-autoloader
+
+      - name: 🧹 Clean up unnecessary files
+        run: |
+          rm -rf tests
+          rm -rf node_modules
+          rm -rf .git
+          rm -rf .github
+          rm -rf storage/*.log
+          rm -f .env
+          rm -f deploy.sh
+          
+      - name: 🚀 Deploy via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: ${{ secrets.FTP_TARGET_DIR }}
+          protocol: ftp
+          port: 21
+          dangerous-clean-slate: false  # true wipes remote dir!
+
