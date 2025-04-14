@@ -20,6 +20,16 @@ jobs:
           extensions: mbstring, bcmath, intl, pdo, openssl
           tools: composer
 
+      - name: 💾 Cache Composer packages
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.composer/cache
+            ./main/vendor
+          key: composer-${{ hashFiles('main/composer.lock') }}
+          restore-keys: |
+            composer-
+
       - name: 📦 Install dependencies
         run: composer install --no-dev --optimize-autoloader
         working-directory: ./main
