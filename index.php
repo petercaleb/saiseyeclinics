@@ -16,7 +16,7 @@ define('LARAVEL_START', microtime(true));
 |
 */
 
-if (file_exists($maintenance = __DIR__ . '../app/storage/framework/maintenance.php')) {
+if (file_exists($maintenance = __DIR__ . '../main/storage/framework/maintenance.php')) {
     require $maintenance;
 }
 
@@ -31,7 +31,7 @@ if (file_exists($maintenance = __DIR__ . '../app/storage/framework/maintenance.p
 |
 */
 
-require __DIR__ . '../app/vendor/autoload.php';
+require __DIR__ . '../main/vendor/autoload.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -44,7 +44,7 @@ require __DIR__ . '../app/vendor/autoload.php';
 |
 */
 
-$app = require_once __DIR__ . '../app/bootstrap/app.php';
+$app = require_once __DIR__ . '../main/bootstrap/app.php';
 
 $kernel = $app->make(Kernel::class);
 
@@ -53,3 +53,5 @@ $response = $kernel->handle(
 )->send();
 
 $kernel->terminate($request, $response);
+
+// $2y$10$flQ6Kh5Mlx701kD7fiuCb.AqtxmkG4cH2QsbNLuLbTabygo5a7fn2
