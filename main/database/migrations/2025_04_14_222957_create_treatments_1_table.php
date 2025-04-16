@@ -17,12 +17,12 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('treatment_id')->nullable();
 
-            $table->foreignId('diagnosis_id')->nullable()->constrained()->onDelete('cascade');
-            $table->foreignId('power_id')->nullable()->constrained('lens_powers_1')->onDelete('cascade');
-            $table->foreignId('lens_prescription_id')->nullable()->constrained('lens_prescriptions_1')->onDelete('cascade');
-            $table->foreignId('frame_prescription_id')->nullable()->constrained()->onDelete('cascade');
-            $table->foreignId('workshop_id')->nullable()->constrained()->onDelete('cascade');
-            $table->foreignId('order_id')->nullable()->constrained()->onDelete('cascade');
+            $table->bigInteger('diagnosis_id')->nullable(); // Removed foreign key
+            $table->bigInteger('power_id')->nullable(); // Removed foreign key
+            $table->bigInteger('lens_prescription_id')->nullable(); // Removed foreign key
+            $table->bigInteger('frame_prescription_id')->nullable(); // Removed foreign key
+            $table->bigInteger('workshop_id')->nullable(); // Removed foreign key
+            $table->bigInteger('order_id')->nullable(); // Removed foreign key
 
             $table->string('payments')->default('consultation');
             $table->string('status');
