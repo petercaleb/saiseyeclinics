@@ -46,28 +46,7 @@ jobs:
           echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
         working-directory: ./main
         shell: bash
-
-      - name: 🕵️ Detect changed migration files
-        id: changed-files
-        run: |
-          if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '^main/database/migrations/'; then
-            echo "changed=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "changed=false" >> "$GITHUB_OUTPUT"
-          fi
-
-      - name: 🚀 Run migrations with direct env variables
-        if: steps.changed-files.outputs.changed == 'true'
-        run: php artisan migrate --force
-        working-directory: ./main
-        env:
-          DB_CONNECTION: mysql
-          DB_HOST: ${{ secrets.DB_HOST }}
-          DB_PORT: 3306
-          DB_DATABASE: ${{ secrets.DB_DATABASE }}
-          DB_USERNAME: ${{ secrets.DB_USERNAME }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-
+        
       - name: 🚀 Upload via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
@@ -75,7 +54,6 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           server-dir: ${{ secrets.FTP_TARGET_DIR }}
-          local-dir: ./main/
           protocol: ftp
           exclude: |
             **/.git*
