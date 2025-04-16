@@ -19,7 +19,7 @@
         }
 
         .header {
-            text-align: center;
+            text-align: left;
             margin-bottom: 30px;
         }
 
@@ -34,6 +34,15 @@
 
         .details p {
             margin: 5px 0;
+        }
+
+        address {
+            font-style: normal;
+            font-size: 12px;
+            font-weight: lighter;
+            line-height: 1.5;
+            color: #666;
+            text-align: center;
         }
 
         table {
@@ -60,6 +69,11 @@
             margin-top: 30px;
         }
 
+        table.info td {
+            border: 0;
+            border-bottom: 1px solid #ccc;
+        }
+
         .notes {
             margin-top: 20px;
             font-size: 14px;
@@ -68,25 +82,64 @@
 </head>
 
 <body>
+    @php
+        $base = dirname(base_path()); // One level up from "main"
+        $logoPath = $base . '/public/assets/logo.png';
+        $logoPath = str_replace('\\', '/', $logoPath); // Ensure forward slashes for DOMPDF
+        $logoData = file_exists($logoPath) ? base64_encode(file_get_contents($logoPath)) : null;
+    @endphp
     <div class="container">
         <div class="header">
-            <h2>Patient Prescription Receipt</h2>
-            <p><strong>Patient ID:</strong> {{ $patient_id }}</p>
-            <p><strong>Appointment ID:</strong> {{ $appointment_id }}</p>
-            <p><strong>Schedule ID:</strong> {{ $schedule_id }}</p>
-            <p><strong>Diagnosis ID:</strong> {{ $diagnoisis_id }}</p>
+            <table style="width:100%;">
+                <tr>
+                    <td style="vertical-align: top; border: none">
+
+                        @if ($logoData)
+                            <img src="data:image/png;base64,{{ $logoData }}" alt="Radium Health Logo" height="60">
+                        @else
+                            <p style="color: red;">[Logo missing]</p>
+                        @endif
+                    </td>
+                    <td style="vertical-align: top; border: none">
+                        <h2 style="text-align: center">Radium Health Services Ltd</h2>
+                        <address>
+                            Main Office: Enterprise Plaza, Adis Ababa Rd <br>
+                            Industrial Area, Nairobi <br>
+                            Tel: 0781666999 | Email: radiumhealthcare@gmail.com
+                        </address>
+                    </td>
+                </tr>
+            </table>
         </div>
 
+
+
         <div class="details">
-            <h4>Prescription Details:</h4>
+            <table class="info">
+                <tr>
+                    <td><strong>Date:</strong> @php  echo date('d-m-Y')  @endphp</td>
+                    <td style="text-align:right"><strong>Ref No:</strong> 475927525</td>
+                </tr>
+                <tr>
+                    <td><strong>Name:</strong> Gladys Njuguna</td>
+                    <td style="border-bottom: 0px"></td>
+                </tr>
+                <tr>
+                    <td><strong>Tel:</strong> 0700223121</td>
+                    <td style="border-bottom: 0px"></td>
+                </tr>
+
+            </table>
             <table>
                 <thead>
                     <tr>
                         <th>Eye</th>
-                        <th>Sphere</th>
-                        <th>Cylinder</th>
+                        <th>Spherical</th>
+                        <th>Cylindrical</th>
                         <th>Axis</th>
-                        <th>Additional Information</th>
+                        <th>Far</th>
+                        <th>Near Addition</th>
+
                     </tr>
                 </thead>
                 <tbody>
@@ -95,6 +148,7 @@
                         <td>{{ $right_sphere }}</td>
                         <td>{{ $right_cylinder }}</td>
                         <td>{{ $right_axis }}</td>
+                        <td>0001</td>
                         <td>{{ $right_add }}</td>
                     </tr>
                     <tr>
@@ -102,6 +156,7 @@
                         <td>{{ $left_sphere }}</td>
                         <td>{{ $left_cylinder }}</td>
                         <td>{{ $left_axis }}</td>
+                        <td>0001</td>
                         <td>{{ $left_add }}</td>
                     </tr>
                 </tbody>

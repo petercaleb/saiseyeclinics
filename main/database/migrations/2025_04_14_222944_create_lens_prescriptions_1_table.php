@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('lens_prescriptions_1', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('power_id')->constrained('lens_powers_1')->onDelete('cascade');
-            $table->foreignId('type_id')->constrained()->onDelete('cascade');
-            $table->foreignId('material_id')->constrained()->onDelete('cascade');
+            $table->bigInteger('power_id'); // Removed foreign key
+            $table->bigInteger('type_id'); // Removed foreign key
+            $table->bigInteger('material_id'); // Removed foreign key
 
             $table->string('index');
             $table->string('tint');
@@ -27,6 +27,7 @@ return new class extends Migration
             $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.

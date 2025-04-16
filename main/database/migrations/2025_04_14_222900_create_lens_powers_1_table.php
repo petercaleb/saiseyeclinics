@@ -16,10 +16,10 @@ return new class extends Migration
         Schema::create('lens_powers_1', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('lens_power_id')->nullable();
-            $table->foreignId('patient_id')->constrained()->onDelete('cascade');
-            $table->foreignId('appointment_id')->constrained()->onDelete('cascade');
-            $table->foreignId('schedule_id')->constrained()->onDelete('cascade');
-            $table->foreignId('diagnoisis_id')->constrained()->onDelete('cascade');
+            $table->bigInteger('patient_id'); // Remove foreign key
+            $table->bigInteger('appointment_id'); // Remove foreign key
+            $table->bigInteger('schedule_id'); // Remove foreign key
+            $table->bigInteger('diagnoisis_id'); // Remove foreign key
 
             $table->string('right_sphere');
             $table->string('right_cylinder');
@@ -36,6 +36,7 @@ return new class extends Migration
             $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.
