@@ -993,16 +993,16 @@
                         },
                     });
                     @if ($lens_prescription && $lens_prescription_1)
-
                         safeGetFunction("lensPrescription__Details");
                     @elseif (!$lens_prescription && !$lens_prescription_1)
                         editHTML(".treatmentOptionTitle", "Choose a Treatment option");
                         toggleVisibility("lensPrescriptionForm", "show");
                         toggleVisibility("lensPrescriptionPreamble", "hide")
                     @elseif ($lens_prescription_1 && !$lens_prescription)
-                        safeGetFunction("lensPrescription1__Form");
-                    @elseif ($lens_prescription && !$lens_prescription_1)
                         safeGetFunction("lensPrescription__Form");
+                    @elseif ($lens_prescription && !$lens_prescription_1)
+                        safeGetFunction("lensPrescription1__Form");
+                        getLensPowerId();
                     @else
                         editHTML(".treatmentOptionTitle", "Choose a Treatment option");
                         toggleVisibility("lensPrescriptionForm", "show");

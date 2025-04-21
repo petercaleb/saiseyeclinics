@@ -78,6 +78,11 @@ class LensPrescriptionController extends Controller
                     'lens_prescription_id' => $lens_prescription_1->id,
                     'status' => 'lens prescription'
                 ]);
+                $response['status'] = true;
+                $response['power_id'] = $lens_power_1->id;
+                $response['prescription_id'] = $lens_power_1->lens_prescription_1->id;
+                $response['message'] = 'You have successfully created prescription 2 for a lens power 2';
+                return response()->json($response, 200);
             } else {
                 //Handle treatment 1 logic
                 if (!$this->validateRequest($data, 'lens_powers')) {

@@ -38,6 +38,14 @@
     }
 
 
+    function getLensPowerId() {
+        let lens_power = @json($lens_power_1);
+        let lensPrescriptionPowerInput = document.getElementById("lensPrescriptionPowerId");
+        lensPrescriptionPowerInput.setAttribute("value", lens_power.id)
+        return;
+    }
+
+
     async function getExportData(button, attributes = [], endpoint) {
         try {
             let res = await fetch(endpoint, getDataFromAttributes(button, attributes));
@@ -162,13 +170,13 @@
         }
     }
 
-    function lensPrescription__Form(option) {
+    function lensPrescription1__Form(option) {
         switch (option) {
             case 'Treatment 1':
                 getDownloadAddresses(option, "lens-prescription");
                 toggleVisibility("lensPrescriptionPreamble", "hide");
-                toggleVisibility("lensPrescriptionForm", "show")
-                toggleVisibility("lensPrescription1", "hide")
+                toggleVisibility("lensPrescriptionForm", "hide")
+                toggleVisibility("lensPrescription", "show")
                 toggleVisibility("treatmentActions", "hide")
                 break;
             case 'Treatment 2':
@@ -181,7 +189,7 @@
         }
     }
 
-    function lensPrescription1__Form(option) {
+    function lensPrescription__Form(option) {
         switch (option) {
             case 'Treatment 1':
                 getDownloadAddresses(option, "lens-prescription");
