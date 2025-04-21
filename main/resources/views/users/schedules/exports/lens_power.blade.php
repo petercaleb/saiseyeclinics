@@ -118,7 +118,7 @@
             <table class="info">
                 <tr>
                     <td><strong>Date:</strong> @php  echo date('d-m-Y')  @endphp</td>
-                    <td style="text-align:right"><strong>Ref No:</strong> 475927525</td>
+                    <td style="text-align:right"><strong>Ref No:</strong> 475927525#1</td>
                 </tr>
                 <tr>
                     <td><strong>Name:</strong> Gladys Njuguna</td>
@@ -130,41 +130,99 @@
                 </tr>
 
             </table>
+
+            <h3 style="margin-top:1rem; margin-bottom:1rem;">Lens Power</h3>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <h4>Left Eye</h4>
+                            <table class="border-radius:0.375rem">
+                                <tbody>
+                                    <tr>
+                                        <th>Sphere</th>
+                                        <td>{{ $left_sphere }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Cylinder</th>
+                                        <td>{{ $left_cylinder }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Axis</th>
+                                        <td>{{ $left_axis }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Add</th>
+                                        <td>{{ $left_add }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+
+                        <td>
+                            <h4>Right Eye</h4>
+                            <table>
+                                <tbody>
+                                    <tr>
+                                        <th>Sphere</th>
+                                        <td>{{ $right_sphere }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Cylinder</th>
+                                        <td>{{ $right_cylinder }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Axis</th>
+                                        <td>{{ $right_axis }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Add</th>
+                                        <td>{{ $right_add }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+            </table>
+
+            <h3 style="margin-top:1rem; margin-bottom:1rem;">Lens Prescription</h3>
             <table>
                 <thead>
                     <tr>
-                        <th>Eye</th>
-                        <th>Spherical</th>
-                        <th>Cylindrical</th>
-                        <th>Axis</th>
-                        <th>Far</th>
-                        <th>Near Addition</th>
-
+                        <th>Type</th>
+                        <th>Material</th>
+                        <th>Index/Thickness</th>
+                        <th>Tint</th>
+                        <th>Diameter/Pupil</th>
+                        <th>Focal Height</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>Right</td>
-                        <td>{{ $right_sphere }}</td>
-                        <td>{{ $right_cylinder }}</td>
-                        <td>{{ $right_axis }}</td>
-                        <td>0001</td>
-                        <td>{{ $right_add }}</td>
-                    </tr>
-                    <tr>
-                        <td>Left</td>
-                        <td>{{ $left_sphere }}</td>
-                        <td>{{ $left_cylinder }}</td>
-                        <td>{{ $left_axis }}</td>
-                        <td>0001</td>
-                        <td>{{ $left_add }}</td>
+                        <td>PROGRESSIVE</td>
+                        <td>PLASTIC-PHOTO WITHOUT HMC</td>
+                        <td>0.01</td>
+                        <td>Black</td>
+                        <td>00</td>
+                        <td>0.1</td>
                     </tr>
                 </tbody>
             </table>
-        </div>
-
-        <div class="notes">
-            <p><strong>Notes:</strong> {{ $notes }}</p>
+            <h3 style="margin-top:1rem;">Comments</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Lens Power</th>
+                        <th>Lens Prescription</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>No Comment</td>
+                        <td>No Comment</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
 
         <div class="footer">
