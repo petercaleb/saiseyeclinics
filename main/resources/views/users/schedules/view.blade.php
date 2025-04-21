@@ -121,6 +121,11 @@
                                         Diagnosis
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#consultationTab" data-toggle="tab">
+                                        Consultation
+                                    </a>
+                                </li>
                                 @if ($diagnosis)
                                     <li class="nav-item">
                                         <a class="nav-link" href="#treatmentTab" data-toggle="tab">
@@ -258,6 +263,10 @@
                                     @include('users.schedules.partials.frame_code')
                                 </div>
                                 <!-- /.tab-pane -->
+
+                                <div class="tab-pane" id="consultationTab">
+                                    @include('users.schedules.partials.consultation')
+                                </div>
 
                                 <div class="tab-pane" id="medicineTab">
                                     <div class="table-responsive">
@@ -625,7 +634,8 @@
                                 $('#lensPowerForm')[0].reset();
                                 $('.lensPowerDiv').fadeOut();
                                 $('#lensPrescriptionPowerId').val(data['power_id']);
-                                $('.lensPrescriptionDiv').fadeIn();
+                                {{-- $('.lensPrescriptionDiv').fadeIn(); --}}
+                                renderLensPower(data, '#onChangeTarget');
                                 $('.frameCodesDiv').fadeOut();
                             } else {
                                 console.log(data);
@@ -799,11 +809,9 @@
                     e.preventDefault();
                     let path = '{{ route('users.doctor.schedules.export') }}';
                     let attributes = [
-                        'data-id',
-                        'data-type',
-                        'data-option'
+                        'data-power-id',
+                        'data-prescription-id',
                     ]
-                    console.log(path);
                     getExportData(this, attributes, path);
                 })
 

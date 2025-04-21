@@ -98,6 +98,10 @@ class LensPowerController extends Controller
                     'power_id' => $lens_power->id,
                 ]);
 
+                $lens_power_data = LensPower::findOrFail($lens_power->id);
+                $response['lens_power'] = $lens_power_data;
+                $response['handler'] = 'lensPower';
+                $response['treatment_option'] = $form_type;
                 $response['status'] = true;
                 $response['power_id'] = $diagnosis->lens_power->id;
                 $response['message'] = 'You have success created lens power for a patient';
