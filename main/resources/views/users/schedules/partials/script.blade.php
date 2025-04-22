@@ -20,25 +20,30 @@
             document.getElementById("printTreatment")
         ];
 
+        const lens_power = @json($lens_power);
+        const lens_power_1 = @json($lens_power_1);
+        const lens_prescription = @json($lens_prescription);
+        const lens_prescription_1 = @json($lens_prescription_1);
+
         let dataMap = {
             "lens-power": {
                 "Treatment 1": {
-                    'lens_power_id': @json($lens_power).id,
-                    'lens_prescription_id': @json($lens_prescription).id
+                    'lens_power_id': lens_power?.id || null,
+                    'lens_prescription_id': lens_prescription?.id || null
                 },
                 "Treatment 2": {
-                    'lens_power_id': @json($lens_power_1).id,
-                    'lens_prescription_id': @json($lens_prescription_1).id
+                    'lens_power_id': lens_power_1?.id || null,
+                    'lens_prescription_id': lens_prescription_1?.id || null
                 }
             },
             "lens-prescription": {
                 "Treatment 1": {
-                    'lens_power_id': @json($lens_power).id,
-                    'lens_prescription_id': @json($lens_prescription).id
+                    'lens_power_id': lens_power?.id || null,
+                    'lens_prescription_id': lens_prescription?.id || null
                 },
                 "Treatment 2": {
-                    'lens_power_id': @json($lens_power_1).id,
-                    'lens_prescription_id': @json($lens_prescription_1).id
+                    'lens_power_id': lens_power_1?.id || null,
+                    'lens_prescription_id': lens_prescription_1?.id || null
                 }
             }
         };
@@ -46,11 +51,16 @@
         let data = dataMap[type]?.[option];
         if (data) {
             buttons.forEach((button) => {
-                button.setAttribute("data-power-id", data.lens_power_id);
-                button.setAttribute("data-prescription-id", data.lens_prescription_id);
+                if (button !== null) {
+                    button.setAttribute("data-power-id", data.lens_power_id ?? '');
+                    button.setAttribute("data-prescription-id", data.lens_prescription_id ?? '');
+                    button.setAttribute("data-type", type);
+                    button.setAttribute("data-option", option);
+                }
             });
         }
     }
+
 
 
 
