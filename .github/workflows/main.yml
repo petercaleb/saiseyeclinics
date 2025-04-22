@@ -61,7 +61,7 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           server-dir: ${{ secrets.FTP_TARGET_DIR_MAIN }}
-          local-dir: ./main/
+          local-dir: ./
           protocol: ftp
           exclude: |
             **/.git*
@@ -80,7 +80,7 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           server-dir: ${{ secrets.FTP_TARGET_DIR_PUBLIC }}
-          local-dir: ./public/
+          local-dir: ./
           protocol: ftp
           exclude: |
             **/.git*
