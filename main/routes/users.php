@@ -134,7 +134,7 @@ Route::middleware(['auth:web', 'preventBackHistory', 'AccountStatus'])->group(fu
 
         Route::get('/{id}/view', [DoctorSchedulesController::class, 'view'])->name('view');
 
-        Route::get('/export', [DoctorSchedulesController::class, 'export'])->name('export');
+        Route::match(['get', 'post'], '/export', [DoctorSchedulesController::class, 'export'])->name('export');
     });
 
     Route::prefix('diagnosis')->name('diagnosis.')->group(function () {

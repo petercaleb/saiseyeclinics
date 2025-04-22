@@ -101,11 +101,10 @@
                         @endif
                     </td>
                     <td style="vertical-align: top; border: none">
-                        <h2 style="text-align: center">Radium Health Services Ltd</h2>
+                        <h2 style="text-align: center">{{ $clinic_name }}</h2>
                         <address>
-                            Main Office: Enterprise Plaza, Adis Ababa Rd <br>
-                            Industrial Area, Nairobi <br>
-                            Tel: 0781666999 | Email: radiumhealthcare@gmail.com
+                            {{ $clinic_address }}, @php echo ucfirst(strtolower($clinic_location)) @endphp <br>
+                            Tel: {{ $clinic_phone_number }} | Email: {{ $clinic_email }}
                         </address>
                     </td>
                 </tr>
@@ -117,21 +116,16 @@
         <div class="details">
             <table class="info">
                 <tr>
-                    <td><strong>Date:</strong> @php  echo date('d-m-Y')  @endphp</td>
-                    <td style="text-align:right"><strong>Ref No:</strong> 475927525#1</td>
+                    <td style="padding-left:0; padding-top:1rem"><strong>Name:</strong> {{ $patient_name }} </td>
+                    <td style="text-align:right; padding-top:1rem"><strong>Tel:</strong> {{ $patient_tel_no }} </td>
                 </tr>
                 <tr>
-                    <td><strong>Name:</strong> Gladys Njuguna</td>
-                    <td style="border-bottom: 0px"></td>
+                    <td style="padding-left:0; padding-top:1rem "><strong>Date:</strong> @php  echo date('d-m-Y')  @endphp</td>
+                    <td style="text-align:right; padding-top:1rem"><strong>Ref No:</strong> 475927525#1</td>
                 </tr>
-                <tr>
-                    <td><strong>Tel:</strong> 0700223121</td>
-                    <td style="border-bottom: 0px"></td>
-                </tr>
-
             </table>
 
-            <h3 style="margin-top:1rem; margin-bottom:1rem;">Lens Power</h3>
+            <h3 style="margin-top:2rem; margin-bottom:1rem;">Lens power</h3>
             <table>
                 <tbody>
                     <tr>
@@ -185,7 +179,7 @@
                     </tr>
             </table>
 
-            <h3 style="margin-top:1rem; margin-bottom:1rem;">Lens Prescription</h3>
+            <h3 style="margin-top:2rem; margin-bottom:1rem;">Lens prescription</h3>
             <table>
                 <thead>
                     <tr>
@@ -210,16 +204,9 @@
             </table>
             <h3 style="margin-top:1rem;">Comments</h3>
             <table>
-                <thead>
-                    <tr>
-                        <th>Lens Power</th>
-                        <th>Lens Prescription</th>
-                    </tr>
-                </thead>
                 <tbody>
                     <tr>
-                        <td>No Comment</td>
-                        <td>No Comment</td>
+                        <td style="padding:1rem">@php  echo (!is_null($notes)) ? $notes : 'No comment' @endphp</td>
                     </tr>
                 </tbody>
             </table>

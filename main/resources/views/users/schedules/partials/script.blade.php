@@ -230,9 +230,11 @@
 
     async function getExportData(button, attributes = [], endpoint) {
         try {
-            let res = await fetch(endpoint, getDataFromAttributes(button, attributes));
+            let res = await fetch(endpoint, generatePostData(button, attributes));
             if (res.ok) {
-                window.location.href = endpoint
+                const blob = await res.blob();
+                const blobUrl = window.URL.createObjectURL(blob);
+                window.open(blobUrl, '_blank');
             } else {
                 console.log('connsction failed')
             }
@@ -240,6 +242,22 @@
             throw e;
         }
 
+    }
+
+
+    function generatePostData(button, attributes) {
+        const data = getDataFromAttributes(button, attributes);
+        const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        const options = {
+            method: 'POST',
+            body: data,
+            headers: {
+                'X-CSRF-TOKEN': token
+            },
+        }
+
+
+        return options;
     }
 
 

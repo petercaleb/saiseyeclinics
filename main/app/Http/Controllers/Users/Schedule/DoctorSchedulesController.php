@@ -6,8 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Appointment;
 use App\Models\Clinic;
 use App\Models\DoctorSchedule;
+use App\Models\LensMaterial;
+use App\Models\LensPower;
 use App\Models\LensPower1;
+use App\Models\LensPrescription;
 use App\Models\LensPrescription1;
+use App\Models\LensType;
 use App\Models\Patient;
 use App\Models\User;
 use Carbon\Carbon;
@@ -260,24 +264,44 @@ class DoctorSchedulesController extends Controller
 
 
 
-    public function export()
+    public function export(Request $request)
     {
         try {
-            // Sample data (Replace with actual data from the database)
+            $user = User::findOrFail(auth()->user()->id);
+            $clinic = $user?->clinic;
+            $power_id = $request->input('power-id');
+            $prescription_id = $request->input('prescription-id');
+            $lens_power = LensPower::findOrFail($power_id);
+            $patient_id = $lens_power?->patient_id;
+            $patient = Patient::findOrFail($patient_id);
+            $lens_prescription = LensPrescription::findOrFail($prescription_id);
+            $type = LensType::findOrFail($lens_prescription?->type_id);
+            $material = LensMaterial::findOrFail($lens_prescription?->material_id);
+
             $data = [
-                'patient_id' => 'P12345',
-                'appointment_id' => 'A123',
-                'schedule_id' => 'S456',
-                'diagnoisis_id' => 'D789',
-                'right_sphere' => '0.25',
-                'right_cylinder' => '-0.50',
-                'right_axis' => '90',
-                'right_add' => '0.75',
-                'left_sphere' => '0.50',
-                'left_cylinder' => '-0.75',
-                'left_axis' => '85',
-                'left_add' => '0.75',
-                'notes' => 'Patient requires updated lenses for reading and distance.'
+                'clinic_name' => $clinic?->clinic,
+                'clinic_phone_number' => $clinic?->phone,
+                'clinic_email' => $clinic?->email,
+                'clinic_address' => $clinic?->address,
+                'clinic_location' => $clinic?->location,
+                'patient_name' => $patient?->first_name . " " . $patient?->last_name,
+                'patient_tel_no' => $patient?->phone,
+                'right_sphere' => $lens_power?->right_sphere,
+                'right_cylinder' => $lens_power?->right_cylinder,
+                'right_axis' => $lens_power?->right_axis,
+                'right_add' => $lens_power?->right_add,
+                'left_cylinder' => $lens_power->left_cylinder,
+                'left_sphere' => $lens_power?->left_sphere,
+                'left_cylinder' => $lens_power?->left_cylinder,
+                'left_axis' => $lens_power?->left_axis,
+                'left_add' => $lens_power?->left_add,
+                'type' => $type?->type,
+                'material' => $material?->material,
+                'index' => $lens_prescription?->index,
+                'tint' => $lens_prescription?->tint,
+                'diameter' =>  $lens_prescription?->diameter,
+                'focal_height' => $lens_prescription?->focal_height,
+                'notes' => $lens_power?->notes
             ];
 
             // Set up DOMPDF options
