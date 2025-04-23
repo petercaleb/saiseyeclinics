@@ -232,11 +232,19 @@
         try {
             let res = await fetch(endpoint, generatePostData(button, attributes));
             if (res.ok) {
-                const blob = await res.blob();
-                const blobUrl = window.URL.createObjectURL(blob);
-                window.open(blobUrl, '_blank');
+                toastr.success('PDF will be downloaded shortly')
+                let blob = await res.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url
+                a.download = 'lens-details.pdf';
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                window.URL.revokeObjectURL('url');
             } else {
-                console.log('connsction failed')
+                toastr.error(`Something unexpected happened.<br> 
+                Please check if you have added a lens prescription or contact the administrator`);
             }
         } catch (e) {
             throw e;

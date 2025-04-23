@@ -634,9 +634,10 @@
                                 $('#lensPowerForm')[0].reset();
                                 $('.lensPowerDiv').fadeOut();
                                 $('#lensPrescriptionPowerId').val(data['power_id']);
-                                {{-- $('.lensPrescriptionDiv').fadeIn(); --}}
-                                renderLensPower(data, '#onChangeTarget');
                                 $('.frameCodesDiv').fadeOut();
+                                setTimeout(() => {
+                                    location.reload();
+                                }, 1000)
                             } else {
                                 console.log(data);
                             }
@@ -811,6 +812,7 @@
                     let attributes = [
                         'data-power-id',
                         'data-prescription-id',
+                        'data-option'
                     ]
                     getExportData(this, attributes, path);
                 })
@@ -871,6 +873,9 @@
                                 $('#frameCodePowerId').val(data['power_id']);
                                 $('#frameCodePrescriptionId').val(data['prescription_id']);
                                 $('.consultationFeeDiv').fadeIn();
+                                setTimeout(() => {
+                                    location.reload();
+                                }, 1000)
                             } else {
                                 console.log(data);
                             }

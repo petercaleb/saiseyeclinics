@@ -36,6 +36,11 @@
             margin: 5px 0;
         }
 
+        .ref {
+            font-size: 1.5rem;
+            font-weight: 900;
+        }
+
         address {
             font-style: normal;
             font-size: 12px;
@@ -117,11 +122,14 @@
             <table class="info">
                 <tr>
                     <td style="padding-left:0; padding-top:1rem"><strong>Name:</strong> {{ $patient_name }} </td>
-                    <td style="text-align:right; padding-top:1rem"><strong>Tel:</strong> {{ $patient_tel_no }} </td>
+                    <td style="text-align:right; padding-top:1rem;">
+                        <strong>Ref:</strong>
+                        <span class="ref">{{ $ref }}</span>
+                    </td>
                 </tr>
                 <tr>
-                    <td style="padding-left:0; padding-top:1rem "><strong>Date:</strong> @php  echo date('d-m-Y')  @endphp</td>
-                    <td style="text-align:right; padding-top:1rem"><strong>Ref No:</strong> 475927525#1</td>
+                    <td style="padding-left:0; padding-top:1rem"><strong>Tel:</strong> {{ $patient_tel_no }} </td>
+                    <td style="text-align:right; padding-top:1rem"><strong>Date:</strong> {{ $date }} </td>
                 </tr>
             </table>
 
@@ -185,24 +193,24 @@
                     <tr>
                         <th>Type</th>
                         <th>Material</th>
-                        <th>Index/Thickness</th>
+                        <th>Index</th>
                         <th>Tint</th>
-                        <th>Diameter/Pupil</th>
+                        <th>Diameter</th>
                         <th>Focal Height</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>PROGRESSIVE</td>
-                        <td>PLASTIC-PHOTO WITHOUT HMC</td>
-                        <td>0.01</td>
-                        <td>Black</td>
-                        <td>00</td>
-                        <td>0.1</td>
+                        <td>{{ $type }}</td>
+                        <td>{{ $material }}</td>
+                        <td>{{ $index }}</td>
+                        <td>{{ $tint }}</td>
+                        <td>{{ $diameter }}</td>
+                        <td>{{ $focal_height }}</td>
                     </tr>
                 </tbody>
             </table>
-            <h3 style="margin-top:1rem;">Comments</h3>
+            <h3 style="margin-top:2rem;">Comments</h3>
             <table>
                 <tbody>
                     <tr>

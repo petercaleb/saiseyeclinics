@@ -271,10 +271,11 @@ class DoctorSchedulesController extends Controller
             $clinic = $user?->clinic;
             $power_id = $request->input('power-id');
             $prescription_id = $request->input('prescription-id');
-            $lens_power = LensPower::findOrFail($power_id);
+            $option = $request->input('option');
+            $lens_power = ($option === 'Treatment 1') ? LensPower::findOrFail($power_id) : LensPower1::findOrFail($power_id);
             $patient_id = $lens_power?->patient_id;
             $patient = Patient::findOrFail($patient_id);
-            $lens_prescription = LensPrescription::findOrFail($prescription_id);
+            $lens_prescription = ($option === 'Treatment 1') ? LensPrescription::findOrFail($prescription_id) : LensPrescription1::findOrFail($prescription_id);
             $type = LensType::findOrFail($lens_prescription?->type_id);
             $material = LensMaterial::findOrFail($lens_prescription?->material_id);
 
@@ -296,12 +297,14 @@ class DoctorSchedulesController extends Controller
                 'left_axis' => $lens_power?->left_axis,
                 'left_add' => $lens_power?->left_add,
                 'type' => $type?->type,
-                'material' => $material?->material,
+                'material' => $material?->title,
                 'index' => $lens_prescription?->index,
                 'tint' => $lens_prescription?->tint,
                 'diameter' =>  $lens_prescription?->diameter,
                 'focal_height' => $lens_prescription?->focal_height,
-                'notes' => $lens_power?->notes
+                'notes' => $lens_power?->notes,
+                'date' => date_format(date_create($lens_prescription?->created_at), 'D, d-m-Y g:i a'),
+                'ref' => ($option === 'Treatment 1') ? $lens_power?->schedule_id . "/1" : $lens_power?->schedule_id . "/2"
             ];
 
             // Set up DOMPDF options
@@ -320,9 +323,9 @@ class DoctorSchedulesController extends Controller
 
             // Render the PDF (first pass)
             $pdf->render();
-
-            // Stream the PDF to the browser (inline view, no download)
-            return $pdf->stream('receipt.pdf', ['Attachment' => 0]);
+            return response($pdf->output(), 200)
+                ->header('Content-Type', 'application/pdf')
+                ->header('Content-Disposition', 'attachment; filename="lens-details.pdf"');
         } catch (\Exception $e) {
             Log::error('PDF generation failed: ' . $e->getMessage());
             return response()->json(['error' => 'PDF generation failed'], 500);
