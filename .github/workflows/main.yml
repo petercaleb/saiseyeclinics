@@ -53,13 +53,15 @@ jobs:
         working-directory: ./main
         shell: bash
 
-      - name: 🚀 Upload via FTP
+      # ⬆️ Deploy main folder
+      - name: 🚀 Upload `main/` via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: ${{ secrets.FTP_TARGET_DIR }}
+          server-dir: ${{ secrets.FTP_TARGET_DIR_MAIN }}
+          local-dir: ./main/
           protocol: ftp
           exclude: |
             **/.git*
@@ -67,5 +69,21 @@ jobs:
             .env
             tests/**
             .github/**
+          dry-run: false
+          dangerous-clean-slate: false
+
+      # ⬆️ Deploy public folder
+      - name: 🚀 Upload `public/` via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: ${{ secrets.FTP_TARGET_DIR_PUBLIC }}
+          local-dir: ./public/
+          protocol: ftp
+          exclude: |
+            **/.git*
+            **/node_modules/**
           dry-run: false
           dangerous-clean-slate: false
