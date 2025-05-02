@@ -344,7 +344,7 @@ class DoctorSchedulesController extends Controller
             'patient_tel_no' => $patient?->phone,
             'receipt_no' => $frame_prescription?->receipt_number,
             'frame_code' => $frame_stock?->code,
-            'frame_brand' => $frame_stock?->code,
+            'frame_brand' => $frame_prescription->frame_stock->hq_stock->frame->frame_brand->title,
             'case_code' => $case_stock?->code,
             'case_color' => $case_color?->title,
             'case_shape' => $case_shape?->title,
