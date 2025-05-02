@@ -79,6 +79,8 @@ Route::middleware(['auth:web', 'preventBackHistory', 'AccountStatus'])->group(fu
         Route::get('/{appointment}/show', [AppointmentsController::class, 'show'])->name('show');
 
         Route::get('/{appointment}/view', [AppointmentsController::class, 'view'])->name('view');
+
+        Route::post('/pay_consultation', [AppointmentsController::class, 'pay_consultation'])->name('pay_consultation');
     });
 
     Route::prefix('client/type')->name('client.type.')->group(function () {

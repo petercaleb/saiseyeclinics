@@ -21,6 +21,8 @@ Route::middleware(['auth:web', 'preventBackHistory', 'AccountStatus'])->group(fu
 
             Route::get('/index', [PaymentsBillController::class, 'index'])->name('index');
 
+            Route::post('/pay/consultation', [PaymentsBillController::class, 'pay_consultation'])->name('pay.consultation');
+
             Route::get('/scheduled/payments', [PaymentsBillController::class, 'get_scheduled'])->name('scheduled.payments');
 
             Route::get('/{id}/create', [PaymentsBillController::class, 'create'])->name('create');
@@ -81,5 +83,4 @@ Route::middleware(['auth:web', 'preventBackHistory', 'AccountStatus'])->group(fu
             Route::post('/{paymentBill}/update/paid', [BillingController::class, 'update_payment_bill'])->name('update.paid');
         });
     });
-
 });

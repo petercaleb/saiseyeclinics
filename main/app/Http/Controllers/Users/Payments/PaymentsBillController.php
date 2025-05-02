@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Users\Payments;
 
 use App\Http\Controllers\Controller;
+use App\Models\Appointment;
 use App\Models\DoctorSchedule;
 use App\Models\PaymentBill;
 use App\Models\PaymentDetail;
@@ -50,10 +51,9 @@ class PaymentsBillController extends Controller
                 })
 
                 ->addColumn('doctor', function ($row) {
-                    if($row->user_id !== null)
-                    {
+                    if ($row->user_id !== null) {
                         return $row->user->first_name . ' ' . $row->user->last_name;
-                    } else{
+                    } else {
                         return '';
                     }
                 })
@@ -69,14 +69,14 @@ class PaymentsBillController extends Controller
                 ->rawColumns(
                     [
                         'action',
-                        'full_names', 
-                        'open_date', 
-                        'consultation_fee', 
-                        'claimed_amount', 
-                        'agreed_amount', 
-                        'total_amount', 
-                        'paid_amount', 
-                        'balance', 
+                        'full_names',
+                        'open_date',
+                        'consultation_fee',
+                        'claimed_amount',
+                        'agreed_amount',
+                        'total_amount',
+                        'paid_amount',
+                        'balance',
                         'bill_status',
                         'doctor'
                     ]
@@ -116,10 +116,9 @@ class PaymentsBillController extends Controller
                 })
 
                 ->addColumn('doctor', function ($row) {
-                    if($row->user_id !== null)
-                    {
+                    if ($row->user_id !== null) {
                         return $row->user->first_name . ' ' . $row->user->last_name;
-                    } else{
+                    } else {
                         return '';
                     }
                 })
@@ -136,14 +135,14 @@ class PaymentsBillController extends Controller
                 ->rawColumns(
                     [
                         'action',
-                        'full_names', 
-                        'open_date', 
-                        'consultation_fee', 
-                        'claimed_amount', 
-                        'agreed_amount', 
-                        'total_amount', 
-                        'paid_amount', 
-                        'balance', 
+                        'full_names',
+                        'open_date',
+                        'consultation_fee',
+                        'claimed_amount',
+                        'agreed_amount',
+                        'total_amount',
+                        'paid_amount',
+                        'balance',
                         'bill_status',
                         'doctor'
                     ]
@@ -435,5 +434,27 @@ class PaymentsBillController extends Controller
             'clinic' => $clinic,
             'payment_bill' => $paymentBill,
         ]);
+    }
+
+    public function pay_consultation(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'appointment_id' => 'required|integer|exists:appointments,id',
+            'consultation_reference_number' => 'nullable|string|max:255',
+            'consultation_amount' => 'required|numeric',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = $validator->errors();
+            $response['status'] = false;
+            $response['errors'] = $errors;
+            return response()->json($response, 401);
+        }
+
+        $appointment = Appointment::findOrFail($request->appointment_id);
+        $clinic_id = $appointment->clinic_id;
+        $patient_id = $appointment->patient_id;
+
+        print_r($appointment->clinic_id);
     }
 }

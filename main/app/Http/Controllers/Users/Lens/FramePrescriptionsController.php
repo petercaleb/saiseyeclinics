@@ -44,7 +44,7 @@ class FramePrescriptionsController extends Controller
         $quantity = 1;
 
 
-        if($closing <= 0 || $quantity > $closing) {
+        if ($closing <= 0 || $quantity > $closing) {
             $errors = ['No Frame Stocks available for the clinic. Please contact the admin in order to continue'];
             $response['status'] = false;
             $response['errors'] = $errors;
@@ -57,7 +57,7 @@ class FramePrescriptionsController extends Controller
             'case_stock_id' => $case_stock->id,
             'frame_code' => $frame_stock->hq_stock->frame->code,
             'case_code' => $case_stock->hqStock->frame_case->code,
-            'receipt_number' => $clinic->initials.'/'.$data['receipt_number'],
+            'receipt_number' => $clinic->initials . '/' . $data['receipt_number'],
             'workshop_id' => $workshop->id,
             'quantity' => $quantity,
             'remarks' => $data['remarks'],
@@ -98,7 +98,7 @@ class FramePrescriptionsController extends Controller
             'frame_prescription_id' => 'required|integer|exists:frame_prescriptions,id',
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             $errors = $validator->errors();
             $response['status'] = false;
             $response['errors'] = $errors;
@@ -153,6 +153,5 @@ class FramePrescriptionsController extends Controller
         $response['status'] = true;
         $response['message'] = 'Frame Prescription updated successfully';
         return response()->json($response, 200);
-
     }
 }

@@ -4,8 +4,16 @@ namespace App\Http\Controllers\Users\Schedule;
 
 use App\Http\Controllers\Controller;
 use App\Models\Appointment;
+use App\Models\CaseColor;
+use App\Models\CaseShape;
+use App\Models\CaseSize;
+use App\Models\CaseStock;
 use App\Models\Clinic;
 use App\Models\DoctorSchedule;
+use App\Models\FrameBrand;
+use App\Models\FrameCase;
+use App\Models\FramePrescription;
+use App\Models\FrameStock;
 use App\Models\LensMaterial;
 use App\Models\LensPower;
 use App\Models\LensPower1;
@@ -263,49 +271,111 @@ class DoctorSchedulesController extends Controller
     }
 
 
+    private function exportTreatment(Request $request)
+    {
+        $user = User::findOrFail(auth()->user()->id);
+        $clinic = $user?->clinic;
+        $option = $request->input('option');
+        $power_id = $request->input('power-id');
+        $prescription_id = $request->input('prescription-id');
+        $lens_power = ($option === 'Treatment 1') ? LensPower::findOrFail($power_id) : LensPower1::findOrFail($power_id);
+        $patient_id = $lens_power?->patient_id;
+        $patient = Patient::findOrFail($patient_id);
+        $lens_prescription = ($option === 'Treatment 1') ? LensPrescription::findOrFail($prescription_id) : LensPrescription1::findOrFail($prescription_id);
+        $type = LensType::findOrFail($lens_prescription?->type_id);
+        $material = LensMaterial::findOrFail($lens_prescription?->material_id);
+
+        $data = [
+            'clinic_name' => $clinic?->clinic,
+            'clinic_phone_number' => $clinic?->phone,
+            'clinic_email' => $clinic?->email,
+            'clinic_address' => $clinic?->address,
+            'clinic_location' => $clinic?->location,
+            'patient_name' => $patient?->first_name . " " . $patient?->last_name,
+            'patient_tel_no' => $patient?->phone,
+            'right_sphere' => $lens_power?->right_sphere,
+            'right_cylinder' => $lens_power?->right_cylinder,
+            'right_axis' => $lens_power?->right_axis,
+            'right_add' => $lens_power?->right_add,
+            'left_cylinder' => $lens_power->left_cylinder,
+            'left_sphere' => $lens_power?->left_sphere,
+            'left_cylinder' => $lens_power?->left_cylinder,
+            'left_axis' => $lens_power?->left_axis,
+            'left_add' => $lens_power?->left_add,
+            'type' => $type?->type,
+            'material' => $material?->title,
+            'index' => $lens_prescription?->index,
+            'tint' => $lens_prescription?->tint,
+            'diameter' =>  $lens_prescription?->diameter,
+            'focal_height' => $lens_prescription?->focal_height,
+            'notes' => $lens_power?->notes,
+            'date' => date_format(date_create($lens_prescription?->created_at), 'd-m-Y g:i a'),
+            'ref' => ($option === 'Treatment 1') ? $lens_power?->schedule_id . "/1" : $lens_power?->schedule_id . "/2"
+        ];
+        return $data;
+    }
+
+
+
+    private function exportFrameCode(Request $request)
+    {
+        $user = User::findOrFail(auth()->user()->id);
+        $clinic = $user?->clinic;
+        $frame_id = $request->input('frame-id');
+        $frame_prescription = FramePrescription::findOrFail($frame_id);
+        $power_id = $frame_prescription?->power_id;
+        $lens_power = LensPower::findOrFail($power_id);
+        $patient_id = $lens_power?->patient_id;
+        $patient = Patient::findOrFail($patient_id);
+        $frame_stock = FrameStock::findOrFail($frame_prescription?->stock_id);
+        $case_stock = CaseStock::findOrFail($frame_prescription?->case_stock_id);
+        $case_color = CaseColor::findOrFail($case_stock?->id);
+        $case_shape = CaseShape::findOrFail($case_stock?->id);
+        $case_size = CaseSize::findOrFail($case_stock?->case_id);
+
+
+        $data = [
+            'clinic_name' => $clinic?->clinic,
+            'clinic_phone_number' => $clinic?->phone,
+            'clinic_email' => $clinic?->email,
+            'clinic_address' => $clinic?->address,
+            'clinic_location' => $clinic?->location,
+            'patient_name' => $patient?->first_name . " " . $patient?->last_name,
+            'patient_tel_no' => $patient?->phone,
+            'receipt_no' => $frame_prescription?->receipt_number,
+            'frame_code' => $frame_stock?->code,
+            'frame_brand' => $frame_stock?->code,
+            'case_code' => $case_stock?->code,
+            'case_color' => $case_color?->title,
+            'case_shape' => $case_shape?->title,
+            'date' => date_format(date_create($frame_prescription?->created_at), 'd-m-Y g:i a'),
+            'case_size' => $case_size?->title
+        ];
+
+        return $data;
+    }
+
+
 
     public function export(Request $request)
     {
         try {
-            $user = User::findOrFail(auth()->user()->id);
-            $clinic = $user?->clinic;
-            $power_id = $request->input('power-id');
-            $prescription_id = $request->input('prescription-id');
             $option = $request->input('option');
-            $lens_power = ($option === 'Treatment 1') ? LensPower::findOrFail($power_id) : LensPower1::findOrFail($power_id);
-            $patient_id = $lens_power?->patient_id;
-            $patient = Patient::findOrFail($patient_id);
-            $lens_prescription = ($option === 'Treatment 1') ? LensPrescription::findOrFail($prescription_id) : LensPrescription1::findOrFail($prescription_id);
-            $type = LensType::findOrFail($lens_prescription?->type_id);
-            $material = LensMaterial::findOrFail($lens_prescription?->material_id);
-
-            $data = [
-                'clinic_name' => $clinic?->clinic,
-                'clinic_phone_number' => $clinic?->phone,
-                'clinic_email' => $clinic?->email,
-                'clinic_address' => $clinic?->address,
-                'clinic_location' => $clinic?->location,
-                'patient_name' => $patient?->first_name . " " . $patient?->last_name,
-                'patient_tel_no' => $patient?->phone,
-                'right_sphere' => $lens_power?->right_sphere,
-                'right_cylinder' => $lens_power?->right_cylinder,
-                'right_axis' => $lens_power?->right_axis,
-                'right_add' => $lens_power?->right_add,
-                'left_cylinder' => $lens_power->left_cylinder,
-                'left_sphere' => $lens_power?->left_sphere,
-                'left_cylinder' => $lens_power?->left_cylinder,
-                'left_axis' => $lens_power?->left_axis,
-                'left_add' => $lens_power?->left_add,
-                'type' => $type?->type,
-                'material' => $material?->title,
-                'index' => $lens_prescription?->index,
-                'tint' => $lens_prescription?->tint,
-                'diameter' =>  $lens_prescription?->diameter,
-                'focal_height' => $lens_prescription?->focal_height,
-                'notes' => $lens_power?->notes,
-                'date' => date_format(date_create($lens_prescription?->created_at), 'D, d-m-Y g:i a'),
-                'ref' => ($option === 'Treatment 1') ? $lens_power?->schedule_id . "/1" : $lens_power?->schedule_id . "/2"
-            ];
+            $data = null;
+            $view = null;
+            $paperSize = null;
+            switch ($option) {
+                case 'FrameCode':
+                    $data = $this->exportFrameCode($request);
+                    $view = 'users.schedules.exports.frame_code';
+                    $paperSize = 'A5';
+                    break;
+                default:
+                    $data = $this->exportTreatment($request);
+                    $view = 'users.schedules.exports.lens_power';
+                    $paperSize = 'A4';
+                    break;
+            }
 
             // Set up DOMPDF options
             $options = new Options();
@@ -315,17 +385,19 @@ class DoctorSchedulesController extends Controller
             // Create a new DOMPDF instance with options
             $pdf = new Dompdf($options);
 
-            $pdf->setPaper('A4', 'potrait');
+            $pdf->setPaper($paperSize, 'potrait');
 
             // Load the HTML content for PDF generation
-            $html = view('users.schedules.exports.lens_power', $data)->render();
+            $html = view($view, $data)->render();
             $pdf->loadHtml($html);
 
             // Render the PDF (first pass)
             $pdf->render();
-            return response($pdf->output(), 200)
-                ->header('Content-Type', 'application/pdf')
-                ->header('Content-Disposition', 'attachment; filename="lens-details.pdf"');
+
+            $pdf->stream("document.pdf", ["Attachment" => false]);
+            // return response($pdf->output(), 200)
+            //     ->header('Content-Type', 'application/pdf')
+            //     ->header('Content-Disposition', 'attachment; filename="lens-details.pdf"');
         } catch (\Exception $e) {
             Log::error('PDF generation failed: ' . $e->getMessage());
             return response()->json(['error' => 'PDF generation failed'], 500);

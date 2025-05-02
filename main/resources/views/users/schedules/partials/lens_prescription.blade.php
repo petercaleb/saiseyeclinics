@@ -10,8 +10,8 @@
             'lensPrescription' => $lens_prescription ?? null,
         ];
     @endphp
-    <div class="d-flex justify-content-center p-5 d-none" id="lensPrescriptionPreamble">
-        <h5>Choose a treatment option</h5>
+    <div class="d-flex justify-content-center p-md-5 p-3 d-none" id="lensPrescriptionPreamble">
+        <h5 class="text-nowrap">Choose a treatment option</h5>
     </div>
 
     @foreach ($prescriptions as $id => $prescription)

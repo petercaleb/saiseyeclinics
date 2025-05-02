@@ -121,11 +121,6 @@
                                         Diagnosis
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#consultationTab" data-toggle="tab">
-                                        Consultation
-                                    </a>
-                                </li>
                                 @if ($diagnosis)
                                     <li class="nav-item">
                                         <a class="nav-link" href="#treatmentTab" data-toggle="tab">
@@ -263,10 +258,6 @@
                                     @include('users.schedules.partials.frame_code')
                                 </div>
                                 <!-- /.tab-pane -->
-
-                                <div class="tab-pane" id="consultationTab">
-                                    @include('users.schedules.partials.consultation')
-                                </div>
 
                                 <div class="tab-pane" id="medicineTab">
                                     <div class="table-responsive">
@@ -809,12 +800,32 @@
                 $(document).on('click', '#downloadTreatment', function(e) {
                     e.preventDefault();
                     let path = '{{ route('users.doctor.schedules.export') }}';
-                    let attributes = [
-                        'data-power-id',
-                        'data-prescription-id',
-                        'data-option'
-                    ]
-                    getExportData(this, attributes, path);
+                    let option = this.getAttribute('data-option');
+                    let attributes = null,
+                        error = null,
+                        fileName = null
+                    switch (option) {
+                        case 'FrameCode':
+                            attributes = [
+                                'data-frame-id',
+                                'data-option'
+                            ]
+                            error = `Something unexpected happened.<br> 
+                Please check if you have added a frame code or contact the administrator`
+                            fileName = 'frame-code.pdf'
+                            break;
+                        default:
+                            attributes = [
+                                'data-power-id',
+                                'data-prescription-id',
+                                'data-option'
+                            ]
+                            error = `Something unexpected happened.<br> 
+                Please check if you have added a lens prescription or contact the administrator`
+                            fileName = 'lens-details.pdf'
+                            break;
+                    }
+                    getExportData(this, attributes, path, fileName, error);
                 })
 
 
@@ -1025,6 +1036,8 @@
                 // Frame Codes
                 $(document).on('click', '.newFrameCodeBtn', function(e) {
                     e.preventDefault();
+                    editHTML('.treatmentOptionTitle', 'Frame Code');
+                    toggleVisibility("treatmentOptionsDiv", "hide");
                     var prescription_id = $(this).data('id');
                     var token = '{{ csrf_token() }}';
                     var path = '{{ route('users.lens.prescription.show') }}';
@@ -1177,6 +1190,12 @@
                     $('.lensPowerDiv').fadeOut();
                     $('.lensPrescriptionDiv').fadeOut();
                     $('.frameCodesDiv').fadeIn();
+                    editHTML('.treatmentOptionTitle', 'Frame Code');
+                    toggleVisibility("treatmentOptionsDiv", "hide");
+                    @if ($frame_prescription)
+                        toggleVisibility("treatmentActions", "show");
+                        generateFrameCodeAttributes({{ $frame_prescription->id }})
+                    @endif
                 });
 
                 // back to lens power

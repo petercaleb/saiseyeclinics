@@ -55,11 +55,19 @@
             No schedule found for this appointment.
         </p>
 
-        <p>
-            <a href="javascript:void(0)" class="btn btn-block btn-sm btn-outline-primary mr-2 scheduleAppointmentBtn">
-                <i class="fas fa-calendar mr-1"></i> Schedule this appointment
-            </a>
-        </p>
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <a href="javascript:void(0)" class="btn btn-block btn-outline-primary mr-2 scheduleAppointmentBtn">
+                    <i class="fas fa-calendar mr-1"></i> Schedule this appointment
+                </a>
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <a class="btn btn-block btn-success" id="payConsultationBtn" data-toggle="modal"
+                    data-target="#payConsultationModal">
+                    Pay Consultation Fee
+                </a>
+            </div>
+        </div>
     </div>
     <!-- /.post -->
 @endif

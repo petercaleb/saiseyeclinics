@@ -141,6 +141,7 @@
 
 @push('modals')
     @include('users.includes.modals.schedule_appointment')
+    @include('users.includes.modals.pay_consultation')
 @endpush
 
 
@@ -198,9 +199,66 @@
                     }
                 });
             });
+        });
+        $("#payConsultationForm").submit(function(e) {
+            e.preventDefault();
+            var form = $(this);
+            var form_data = new FormData(form[0]);
+            var path = '{{ route('users.payments.bills.pay.consultation') }}';
+            $.ajax({
+                url: path,
+                type: 'POST',
+                data: form_data,
+                contentType: false,
+                processData: false,
+                beforeSend: function() {
+                    $('#payConsultationFormBtn').attr('disabled', true);
+                    $('#payConsultationFormBtn .spinner').removeClass('d-none');
+                },
+                success: function(data) {
+                    if (data['status']) {
+                        $('#payConsultationModal').modal('hide');
+                        toastr.success(data.message);
+                        $('#payConsultationBtn').removeClass('btn-secondary');
+                        $('#payConsultationBtn').addClass('btn-outline-secondary');
+                        $('#payConsultationBtn').html('Consultation Fee Paid')
+                        $('#payConsultationFormBtn').removeAttr('disabled')
+                        $('#payConsultationFormBtn .spinner').addClass('d-none');
+                        setTimeout(() => {
+                            location.reload();
+                        }, 1000);
+                    } else {
+                        toastr.error(data.message);
+                    }
+                },
+                error: function(data) {
+                    console.log(data);
 
+                    if (data.responseJSON && data.responseJSON.errors) {
+                        const errors = data.responseJSON.errors;
+                        let messages = [];
 
+                        for (const field in errors) {
+                            if (errors.hasOwnProperty(field)) {
+                                messages.push(errors[field][
+                                    0
+                                ]); // get the first error message for each field
+                            }
+                        }
 
+                        // Display each error message using toastr
+                        messages.forEach(function(message) {
+                            toastr.error(message);
+                        });
+                    } else {
+                        toastr.error('An unexpected error occurred.');
+                    }
+
+                    $('#payConsultationFormBtn').removeAttr('disabled');
+                    $('#payConsultationFormBtn .spinner').addClass('d-none');
+                }
+
+            });
         });
     </script>
 @endpush

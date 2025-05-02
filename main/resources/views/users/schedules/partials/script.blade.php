@@ -228,7 +228,7 @@
 
 
 
-    async function getExportData(button, attributes = [], endpoint) {
+    async function getExportData(button, attributes = [], endpoint, fileName, error) {
         try {
             let res = await fetch(endpoint, generatePostData(button, attributes));
             if (res.ok) {
@@ -237,20 +237,22 @@
                 const url = window.URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url
-                a.download = 'lens-details.pdf';
+                a.download = fileName;
                 document.body.appendChild(a);
                 a.click();
                 a.remove();
                 window.URL.revokeObjectURL('url');
             } else {
-                toastr.error(`Something unexpected happened.<br> 
-                Please check if you have added a lens prescription or contact the administrator`);
+                toastr.error();
             }
         } catch (e) {
             throw e;
         }
 
     }
+
+
+
 
 
     function generatePostData(button, attributes) {
@@ -295,6 +297,22 @@
         }
     }
 
+
+    function generateFrameCodeAttributes(frame_id) {
+        const btn = document.getElementById('downloadTreatment');
+        const removableAttrs = [
+            'data-power-id',
+            'data-prescription-id',
+            'data-option',
+            'data-type'
+        ];
+        removableAttrs.forEach(attr => {
+            btn.removeAttribute(attr);
+        })
+        btn.setAttribute('data-option', 'FrameCode')
+        btn.setAttribute('data-frame-id', frame_id);
+        return;
+    }
 
 
 
@@ -385,7 +403,7 @@
                 toggleVisibility("lensPrescriptionPreamble", "hide");
                 toggleVisibility("lensPrescriptionForm", "hide")
                 toggleVisibility("lensPrescription", "show")
-                toggleVisibility("treatmentActions", "hide")
+                toggleVisibility("treatmentActions", "show", "flex")
                 break;
             case 'Treatment 2':
                 getDownloadAddresses(option, "lens-prescription");

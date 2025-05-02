@@ -25,7 +25,8 @@ class PaymentBill extends Model
         'approval_status',
         'bill_status',
         'close_date',
-        'claimed_amount',
+        'frame_amount',
+        'lens_amount',
         'agreed_amount',
         'total_amount',
         'paid_amount',
@@ -38,7 +39,7 @@ class PaymentBill extends Model
         'terms',
     ];
 
-    public function user()  
+    public function user()
     {
         # code...
         return $this->belongsTo(User::class, 'user_id', 'id');
@@ -80,9 +81,9 @@ class PaymentBill extends Model
         return $this->hasMany(Billing::class, 'payment_bill_id', 'id');
     }
 
-    public function remmittance()  
+    public function remmittance()
     {
-        return $this->hasOne(Remmittance::class, 'payment_bill_id');    
+        return $this->hasOne(Remmittance::class, 'payment_bill_id');
     }
 
     public function order()
@@ -103,8 +104,8 @@ class PaymentBill extends Model
         return $this->hasMany(WorkshopSale::class, 'payment_bill_id', 'id');
     }
 
-    public function payment_attachment()  
+    public function payment_attachment()
     {
-        return $this->hasMany(PaymentAttachment::class, 'bill_id', 'id');    
+        return $this->hasMany(PaymentAttachment::class, 'bill_id', 'id');
     }
 }

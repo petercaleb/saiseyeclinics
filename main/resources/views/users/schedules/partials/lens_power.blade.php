@@ -5,8 +5,8 @@
 
     @include('users.schedules.partials.lens_power_form')
 
-    <div class="d-flex justify-content-center p-5" id="lensPowerPreamble">
-        <h5>Choose a treatment option</h5>
+    <div class="d-flex justify-content-center p-md-5 p-3" id="lensPowerPreamble">
+        <h5 class="text-nowrap">Choose a treatment option</h5>
     </div>
     @foreach ([$lens_power, $lens_power_1] as $index => $lens)
         @if ($lens)
